@@ -186,13 +186,15 @@
 
     // Timeout untuk loading (max 10 detik)
     let loadingTimeout;
+    let loadingMinTimeout;
 
     function hideLoading() {
       clearTimeout(loadingTimeout);
+      clearTimeout(loadingMinTimeout);
       loading.classList.add('hide');
       setTimeout(() => {
         iframeContainer.classList.add('show');
-      }, 500);
+      }, 300);
     }
 
     function showError() {
@@ -210,6 +212,11 @@
     appIframe.addEventListener('error', function() {
       showError();
     });
+
+    // Minimum loading time (supaya tidak terlalu cepat/flickering)
+    loadingMinTimeout = setTimeout(function() {
+      hideLoading();
+    }, 800); // Loading minimal 0.8 detik, bisa diubah (500-1500)
 
     // Timeout jika loading terlalu lama (10 detik)
     loadingTimeout = setTimeout(function() {
